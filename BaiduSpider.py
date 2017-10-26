@@ -31,7 +31,6 @@ class BaiduSpider(object):
         self.done_page_number = 1
         self.f = None
 
-
     @staticmethod
     def get_response(input_url, try_time=1000, **kwargs):
         if 'session' in kwargs:
@@ -93,7 +92,8 @@ class BaiduSpider(object):
             threads = []
             for soup in self.search_list:
                 for result in soup.find_all('div', {'class': 'result'}):
-                    if len(threads) < 32:
+                    print("\rprocessing page " + str(self.done_page_number), end='')
+                    if len(threads) < 64:
                         t = threading.Thread(target=self.thread_get_content, args=(result.h3.a['href'],))
                         threads.append(t)
                         t.start()
@@ -113,7 +113,6 @@ class BaiduSpider(object):
         self.search_list.append(self.get_html_tree(url=self.url, params=para))
 
     def thread_get_content(self, url):
-        print("\rprocessing page " + str(self.done_page_number), end='')
         current_page = self.get_html_tree(url)
         content = current_page.find_all('p')
         self.lock.acquire()
@@ -128,5 +127,5 @@ class BaiduSpider(object):
             self.lock.release()
 
 
-if __name__  == "__main__":
+if __name__ == "__main__":
     baidu_s = BaiduSpider('十九大', page_num=40)
