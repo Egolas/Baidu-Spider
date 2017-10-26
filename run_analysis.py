@@ -7,7 +7,7 @@ with open('file.txt', 'r', encoding="utf-8") as f:
         seg_list = jieba.cut(file_text)
         frequency_list = {}
         for word in seg_list:
-            if not re.match(r"[\-:《》，。‘“”’：；、？！%!@#%^&*()={};'/.,?<>:'|[\]~`A-Z0-9\s]+", word):
+            if not re.match(r"[\-:《》，。‘“”’：；●▲【】■·、？！%!@#%^&*()={};'/.,?<>:'|[\]~`A-Z0-9\s]+", word):
                 if word in frequency_list:
                     frequency_list[word] += 1
                     pass
